@@ -2,7 +2,7 @@ package com.heisenburg.walpaperkotlin.manager
 
 import android.app.Activity
 import android.content.Intent
-import com.heisenburg.walpaperkotlin.MainActivity
+import com.heisenburg.walpaperkotlin.dashboard.MainActivity
 
 class AppActivityManager {
 
