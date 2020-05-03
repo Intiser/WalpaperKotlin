@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.heisenburg.walpaperkotlin.R
 import com.heisenburg.walpaperkotlin.adapter.ImageAdapter
 import com.heisenburg.walpaperkotlin.dashboard.viewmodel.MainViewModel
+import com.heisenburg.walpaperkotlin.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewModel()
-        initRecyclerView();
+        //initRecyclerView();
+        initFragment();
+    }
+
+    private fun initFragment() {
+        supportFragmentManager
+            .beginTransaction()
+            .add(layout_container.id, HomeFragment.newInstance(HomeFragment.FIRST), null)
+            .commit()
     }
 
     private fun initRecyclerView() {
