@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.heisenburg.walpaperkotlin.R
 import com.heisenburg.walpaperkotlin.manager.AppActivityManager
+import com.heisenburg.walpaperkotlin.repository.Repository
 
 class SplashActivity : AppCompatActivity() {
 
