@@ -2,12 +2,14 @@ package com.heisenburg.walpaperkotlin.dashboard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.heisenburg.walpaperkotlin.R
 import com.heisenburg.walpaperkotlin.adapter.ImageAdapter
 import com.heisenburg.walpaperkotlin.dashboard.viewmodel.MainViewModel
 import com.heisenburg.walpaperkotlin.home.HomeFragment
+import com.heisenburg.walpaperkotlin.model.HitsItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewModel()
-        //initRecyclerView();
-        initFragment();
+        initRecyclerView();
+        //initFragment();
     }
 
     private fun initFragment() {
@@ -28,9 +30,11 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    val adapter : ImageAdapter = ImageAdapter(this);
+
     private fun initRecyclerView() {
         recyclerview.layoutManager = GridLayoutManager(this, 3)
-        recyclerview.adapter = ImageAdapter(this)
+        recyclerview.adapter = adapter
         recyclerview.setItemViewCacheSize(100)
         recyclerview.setHasFixedSize(true)
     }
@@ -40,5 +44,10 @@ class MainActivity : AppCompatActivity() {
     fun initViewModel(){
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+        viewModel.imageInfoResponseMutableLiveData.observe(this, Observer { unit ->
+
+            adapter.setArrayList(unit.getHits() as ArrayList<HitsItem>)
+        })
+        viewModel.getImages()
     }
 }
