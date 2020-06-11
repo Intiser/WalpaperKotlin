@@ -18,9 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initViewModel()
-        initRecyclerView();
-        //initFragment();
+        //initViewModel()
+       // initRecyclerView();
+        initFragment();
     }
 
     private fun initFragment() {
@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.imageInfoResponseMutableLiveData.observe(this, Observer { unit ->
 
-            adapter.setArrayList(unit.getHits() as ArrayList<HitsItem>)
+            adapter.setArrayList(unit.hits as ArrayList<HitsItem>)
+
         })
         viewModel.getImages()
     }

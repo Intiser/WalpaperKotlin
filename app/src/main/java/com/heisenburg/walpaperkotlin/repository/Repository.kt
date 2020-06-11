@@ -46,10 +46,17 @@ object Repository {
                     };
 
                     if (response.isSuccessful()) {
-                        if (imageInfoResponseMutableLiveData.getValue() == null) {
+                        if (imageInfoResponseMutableLiveData.getValue() == null || page == 1) {
                             imageInfoResponseMutableLiveData.postValue(response.body())
                         } else {
+                            var images : ArrayList<HitsItem>? =
+                                imageInfoResponseMutableLiveData.value?.hits as ArrayList<HitsItem>
 
+                            response.body()?.hits?.let { images?.addAll(it) }
+
+                            imageInfoResponseMutableLiveData.value!!.hits = images as List<HitsItem>
+
+                            imageInfoResponseMutableLiveData.postValue(imageInfoResponseMutableLiveData.value)
                         }
                     }
                 }

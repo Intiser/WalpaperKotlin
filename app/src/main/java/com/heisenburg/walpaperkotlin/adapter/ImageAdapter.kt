@@ -32,8 +32,9 @@ class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.Hol
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.imageview?.let {
-            Glide.with(context).load(arraylist.get(position).getPreviewURL()).into(it)
+            Glide.with(context).load(arraylist.get(position).previewURL).into(it)
         };
+
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -5,9 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.heisenburg.walpaperkotlin.R
+import com.heisenburg.walpaperkotlin.adapter.ImageAdapter
+import com.heisenburg.walpaperkotlin.home.viewmodel.HomeViewModel
+import com.heisenburg.walpaperkotlin.model.HitsItem
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.recyclerview
 
 
 /**
@@ -29,15 +40,43 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        initViewModel()
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    var viewModel: HomeViewModel = HomeViewModel()
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel.imageInfoResponse.observe(this, Observer { values ->
+            adapter?.setArrayList(values.hits as ArrayList<HitsItem>)
+        })
+        viewModel.getImages()
     }
 
     override fun onResume() {
         super.onResume()
-        if(viewType == 0) this.text.setText("ZERO")
-        if(viewType == 1) this.text.setText("One")
-        if(viewType == 2) this.text.setText("Two")
-        if(viewType == 3) this.text.setText("Three")
+        initRecyclerView()
+    }
+
+    var adapter: ImageAdapter? = context?.let { ImageAdapter(it) };
+
+    private fun initRecyclerView() {
+        recyclerview.layoutManager =
+            GridLayoutManager(context, 3);
+        adapter = context?.let { ImageAdapter(it) }
+        recyclerview.adapter = adapter;
+        recyclerview.setItemViewCacheSize(1000)
+        recyclerview.setHasFixedSize(true)
+        val listener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!recyclerView.canScrollVertically(1)){
+                    viewModel.getImagesNext()
+                }
+            }
+        }
+        recyclerview.addOnScrollListener(listener)
     }
 
     companion object {

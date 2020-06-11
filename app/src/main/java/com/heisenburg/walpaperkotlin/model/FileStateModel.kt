@@ -3,8 +3,12 @@ package com.heisenburg.walpaperkotlin.model
 import java.io.File
 
 class FileStateModel {
-    var SUCCESSFULL = 200
-    var UNAUTHORIZED = 401
+    companion object{
+        const val SUCCESSFULL = 200
+        const val UNAUTHORIZED = 401
+
+    }
+
 
     private var code = 0
 

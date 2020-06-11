@@ -9,7 +9,7 @@ import com.heisenburg.walpaperkotlin.repository.Repository
 class MainViewModel : ViewModel() {
 
 
-    val imageInfoResponseMutableLiveData =
+    var imageInfoResponseMutableLiveData =
         MutableLiveData<ImageInfoResponse>()
 
     fun getImages() {
